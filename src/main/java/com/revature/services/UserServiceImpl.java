@@ -1,7 +1,9 @@
 package com.revature.services;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -110,7 +112,10 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<User> findListByEmail(List<String> emailList){
-		return userRepo.findAllUserByEmailIgnoreCase(emailList);
+		List<String> lowerCaseEmailList = emailList.stream()
+                .map(email -> email.toLowerCase(Locale.ENGLISH)).collect(Collectors.toList());
+
+		return userRepo.findAllUserByEmailIgnoreCase(lowerCaseEmailList);
 	}
 
 }
