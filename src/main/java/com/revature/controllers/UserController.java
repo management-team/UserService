@@ -67,17 +67,6 @@ public class UserController {
 
 	@PostMapping("emails")
 	public List<User> findAllByEmails(@RequestBody EmailList emails) {
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-		System.out.println(emails.getEmailList());
 		return userService.findListByEmail(emails.getEmailList());
 	}
 
