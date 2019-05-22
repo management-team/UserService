@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.cognito.annotations.CognitoAuth;
 import com.revature.cognito.constants.CognitoRoles;
 import com.revature.models.User;
+import com.revature.models.dto.EmailList;
 import com.revature.services.IUserService;
 
 @RestController
@@ -64,10 +64,21 @@ public class UserController {
 	public List<User> findAllByCohortId(@PathVariable int id) {
 		return userService.findAllByCohortId(id);
 	}
-	
+
 	@PostMapping("emails")
-	public List<User> findAllByEmails(@RequestBody List<String> emails) {
-		return userService.findListByEmail(emails);
+	public List<User> findAllByEmails(@RequestBody EmailList emails) {
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+		System.out.println(emails.getEmailList());
+		return userService.findListByEmail(emails.getEmailList());
 	}
 
 	//@CognitoAuth(roles = { "staging-manager" })

@@ -112,8 +112,10 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<User> findListByEmail(List<String> emailList){
+		System.out.println(emailList);
 		List<String> lowerCaseEmailList = emailList.stream()
                 .map(email -> email.toLowerCase(Locale.ENGLISH)).collect(Collectors.toList());
+		System.out.println(lowerCaseEmailList);
 
 		return userRepo.findAllUserByEmailIgnoreCase(lowerCaseEmailList);
 	}
