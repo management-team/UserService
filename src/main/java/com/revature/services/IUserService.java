@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.revature.models.User;
 
 @Service
-public interface UserService {
+public interface IUserService {
 	//
 	// public List<User> findAll();
 	//
@@ -20,6 +20,8 @@ public interface UserService {
 	 public User updateProfile(User u);
 	//
 	 public User findOneByEmail(String email);
+	 //
+	 public List<User> findListByEmail(List<String> emailList);
 	 
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)
