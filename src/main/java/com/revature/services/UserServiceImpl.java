@@ -110,7 +110,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<User> findListByEmail(List<String> emailList){
-		return userRepo.findByEmailIgnoreCase(emailList);
+		return userRepo.findAllUserByEmailIgnoreCase(emailList);
 	}
 
 }

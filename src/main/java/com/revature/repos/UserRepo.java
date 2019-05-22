@@ -12,7 +12,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
 	public User findByEmailIgnoreCase(String email);
 
-	@Query("FROM sms_users user WHERE user.email IN :emailList")
-	public List<User> findByEmailIgnoreCase(List<String> emailList);
+	@Query("FROM User user WHERE user.email IN :emailList")
+	public List<User> findAllUserByEmailIgnoreCase(List<String> emailList);
 
 }
