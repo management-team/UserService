@@ -1,13 +1,11 @@
 package com.revature.controllers;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,13 +13,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.revature.models.Cohort;
 import com.revature.models.User;
-import com.revature.services.UserService;
+import com.revature.services.IUserService;
 
 
 
@@ -32,7 +28,7 @@ public class UserControllerTest {
 	UserController tester = new UserController();
 
 	@Mock
-	UserService userService;
+	IUserService userService;
 	
 	final List<User> idUserMap = new ArrayList<User>();
 	final Map<String,User> propsUserMap = new HashMap<String,User>();
