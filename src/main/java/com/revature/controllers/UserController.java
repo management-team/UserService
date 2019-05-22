@@ -65,7 +65,7 @@ public class UserController {
 		return userService.findAllByCohortId(id);
 	}
 	
-	@PostMapping
+	@PostMapping("emails")
 	public List<User> findAllByEmails(@RequestBody List<String> emails) {
 		return userService.findListByEmail(emails);
 	}
