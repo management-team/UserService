@@ -16,15 +16,13 @@ import com.revature.feign.FeignException;
 import com.revature.models.StatusHistory;
 import com.revature.models.User;
 import com.revature.repos.AddressRepo;
-
 import com.revature.repos.StatusHistoryRepo;
-
-
 import com.revature.repos.UserRepo;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
+//	List<String> roles = cognitoUtil.getRequesterRoles();
 	@Value("${cognito.key}")
 	private String cognitoKey;
 	
@@ -109,10 +107,18 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+////////////////////////////////////////Find one By email Implementation////////////////////////
 	@Override
 	public User findOneByEmail(String email) {
 		return userRepo.findByEmailIgnoreCase(email);
 	}
 	
-
+	
+	
+	@Override 
+	public List<User> findUserByPartialEmail(String email) {
+		return userRepo.findUsersByEmailIgnoreCase(email);
+	}
+	
+////////////////////////////////////////////////////////////////////////////////////////////////
 }

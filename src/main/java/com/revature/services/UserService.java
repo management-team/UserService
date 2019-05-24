@@ -21,6 +21,9 @@ public interface UserService {
 	//
 	 public User findOneByEmail(String email);
 	 
+	/////////////////////////////////////////////
+	 public List<User> findUserByPartialEmail(String email);
+	 
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)
 	// throws IOException;
