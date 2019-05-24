@@ -39,7 +39,6 @@ public class UserController {
 		return userService.findOneById(id);
 	}
 
-	///////////////////////////////find email by email//////////////////////////////////////
 	@GetMapping(path = "email/{email:.+}")
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
@@ -65,9 +64,7 @@ public class UserController {
 	public List<User> findAllByCohortId(@PathVariable int id) {
 		return userService.findAllByCohortId(id);
 	}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  End point for finding user by partial email address. (ss)
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	@GetMapping(path = "email/partial/{email:.+}")
 	public ResponseEntity<List<User>> findUserByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
@@ -87,8 +84,6 @@ public class UserController {
 		}
 		return new ResponseEntity<List<User>>(resultBody, headers, resultStatus);
 	}
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping

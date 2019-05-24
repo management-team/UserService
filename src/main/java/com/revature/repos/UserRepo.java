@@ -11,8 +11,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
 	public User findByEmailIgnoreCase(String email);
 	
-	////////////////////////////////////////
 	@Query("FROM User user WHERE user.email LIKE %:email%")
 	public List<User> findUsersByEmailIgnoreCase(String email);
-	/////////////////////////////////////////
 }

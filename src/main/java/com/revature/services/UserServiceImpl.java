@@ -107,7 +107,6 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-////////////////////////////////////////Find one By email Implementation////////////////////////
 	@Override
 	public User findOneByEmail(String email) {
 		return userRepo.findByEmailIgnoreCase(email);
@@ -120,5 +119,4 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findUsersByEmailIgnoreCase(email);
 	}
 	
-////////////////////////////////////////////////////////////////////////////////////////////////
 }

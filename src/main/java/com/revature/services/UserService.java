@@ -20,8 +20,7 @@ public interface UserService {
 	 public User updateProfile(User u);
 	//
 	 public User findOneByEmail(String email);
-	 
-	/////////////////////////////////////////////
+	//
 	 public List<User> findUserByPartialEmail(String email);
 	 
 	//
