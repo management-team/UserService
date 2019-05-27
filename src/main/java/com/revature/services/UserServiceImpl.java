@@ -24,6 +24,8 @@ import com.revature.repos.UserRepo;
 @Service
 public class UserServiceImpl implements UserService {
 
+//	List<String> roles = cognitoUtil.getRequesterRoles();
+  
 	@Value("${cognito.key}")
 	private String cognitoKey;
 
@@ -109,7 +111,12 @@ public class UserServiceImpl implements UserService {
 	public User findOneByEmail(String email) {
 		return userRepo.findByEmailIgnoreCase(email);
 	}
-
+  
+	@Override 
+	public List<User> findUserByPartialEmail(String email) {
+		return userRepo.findUsersByEmailIgnoreCase(email);
+	}
+  
 	@Override
 	public List<User> findListByEmail(List<String> emailList) {
 		System.out.println(emailList);
@@ -119,5 +126,5 @@ public class UserServiceImpl implements UserService {
 
 		return userRepo.findAllUserByEmailIgnoreCase(lowerCaseEmailList);
 	}
-
+  
 }
