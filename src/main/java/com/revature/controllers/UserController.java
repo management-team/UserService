@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.cognito.annotations.CognitoAuth;
 import com.revature.cognito.constants.CognitoRoles;
 import com.revature.models.User;
+import com.revature.models.dto.EmailList;
 import com.revature.services.UserService;
 
 @RestController
@@ -65,6 +66,7 @@ public class UserController {
 		return userService.findAllByCohortId(id);
 	}
 	
+	@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping(path = "email/partial/{email:.+}")
 	public ResponseEntity<List<User>> findUserByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
@@ -86,6 +88,11 @@ public class UserController {
 	}
 	
 	@CognitoAuth(roles = { "staging-manager" })
+	@PostMapping("emails")
+	public List<User> findAllByEmails(@RequestBody EmailList emails) {
+		return userService.findListByEmail(emails.getEmailList());
+	}
+  
 	@PostMapping
 	public User save(@RequestBody User user) {
 		return userService.saveUser(user);
