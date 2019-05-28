@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.validation.constraints.NotNull;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,6 +19,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.revature.models.Address;
+import com.revature.models.Cohort;
+import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.models.dto.EmailList;
 import com.revature.services.UserService;
@@ -123,7 +129,7 @@ public class UserControllerTest {
 
 		List<User> result = tester.findAllByCohortId(0);
 
-		Assert.assertEquals("check user Controller find all", whenResult, result);
+		Assert.assertEquals("check user Controller find all by cohort id", whenResult, result);
 
 		System.out.println(tester);
 	}
@@ -139,7 +145,7 @@ public class UserControllerTest {
 		ResponseEntity<List<User>> result = tester.findUserByEmail("revature");
 		List<User> resultUser = result.getBody();
 
-		Assert.assertEquals("check user Controller find all", whenResult, resultUser);
+		Assert.assertEquals("check user Controller find users by partial email", whenResult, resultUser);
 
 		System.out.println(tester);
 	}
@@ -161,17 +167,31 @@ public class UserControllerTest {
 
 		List<User> result = tester.findAllByEmails(theEmails);
 		User resultUser = result.get(0);
-		Assert.assertEquals("check user Controller find all", test, resultUser);
+		Assert.assertEquals("check user Controller find all by emails", test, resultUser);
 	}
 
-//	@Test
-//	public void testSave() {
+	@Test
+	public void testSave() {
 //		idUserMap.clear();
 //		// Saving without collision
 //		// Saving invalid user
 //		// Saving valid user with collision
 //		fail("Not yet implemented");
-//	}
+	
+		User testSave = new User();
+		testSave.setUserId(10000);
+		testSave.setFirstName("first");
+		testSave.setLastName("last");
+		testSave.setEmail("email");
+		testSave.setPhoneNumber("0000000000");
+		
+		when(userService.saveUser(testSave)).thenReturn(testSave);
+		
+		User testResult = tester.save(testSave);
+		
+		Assert.assertEquals("Check user controller save", testSave, testResult);
+		
+	}
 
 //	@Test
 //	public void testUpdate() {
