@@ -6,22 +6,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.validation.constraints.NotNull;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.revature.models.Address;
-import com.revature.models.Cohort;
-import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.models.dto.EmailList;
 import com.revature.services.UserService;
@@ -29,7 +22,7 @@ import com.revature.services.UserService;
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
-	@InjectMocks
+	//@InjectMocks
 	UserController tester = new UserController();
 
 	@Mock
