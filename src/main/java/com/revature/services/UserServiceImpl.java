@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CognitoUtil cognitoUtil;
+	
+	@Override
+	public List<User> findAll() {
+		return userRepo.findAll();
+	}
 
 	@Override
 	public User findOneById(int id) {

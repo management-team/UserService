@@ -9,7 +9,7 @@ import com.revature.models.User;
 @Service
 public interface UserService {
 	//
-	// public List<User> findAll();
+	 public List<User> findAll();
 	//
 	 public User findOneById(int id);
 	//
