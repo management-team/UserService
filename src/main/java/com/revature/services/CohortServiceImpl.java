@@ -57,6 +57,7 @@ public class CohortServiceImpl implements CohortService {
 				Set<Cohort> nCohorts = nUser.getCohorts();
 				nCohorts.add(cohort);
 				nUser.setCohorts(nCohorts);
+				nUser.setTrainingAddress(cohort.getAddress());
 				userRepo.save(nUser);
 				//cohortRepo.save(cohort);
 				return "OK";
