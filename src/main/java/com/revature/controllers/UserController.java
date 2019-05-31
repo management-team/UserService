@@ -31,15 +31,24 @@ public class UserController {
 
 	@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping
-	String findAll() {
+	String test() {
 		return "works";
 	}
+	
+	@CognitoAuth(roles = { "staging-manager" })
+	@GetMapping ("allUsers")
+	public ResponseEntity <List<User>> findAll() {
+		return new ResponseEntity<List<User>>(userService.findAll(), HttpStatus.OK);
+	}
+	
+	
 
 	@GetMapping("{id}")
 	public User findById(@PathVariable int id) {
 		return userService.findOneById(id);
 	}
 
+	@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping(path = "email/{email:.+}")
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
