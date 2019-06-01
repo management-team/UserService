@@ -34,14 +34,12 @@ public class UserController {
 	String test() {
 		return "works";
 	}
-	
+
 	@CognitoAuth(roles = { "staging-manager" })
-	@GetMapping ("allUsers")
-	public ResponseEntity <List<User>> findAll() {
+	@GetMapping("allUsers")
+	public ResponseEntity<List<User>> findAll() {
 		return new ResponseEntity<List<User>>(userService.findAll(), HttpStatus.OK);
 	}
-	
-	
 
 	@GetMapping("{id}")
 	public User findById(@PathVariable int id) {
@@ -53,17 +51,17 @@ public class UserController {
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		
+
 		User resultBody = null;
 		HttpStatus resultStatus = HttpStatus.OK;
 		try {
 			resultBody = userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
-			} catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {
 
 			e.printStackTrace();
-		} 
-		
-		if(resultBody == null) {
+		}
+
+		if (resultBody == null) {
 			resultStatus = HttpStatus.NOT_FOUND;
 		}
 		return new ResponseEntity<User>(resultBody, headers, resultStatus);
@@ -74,39 +72,39 @@ public class UserController {
 	public List<User> findAllByCohortId(@PathVariable int id) {
 		return userService.findAllByCohortId(id);
 	}
-	
+
 	@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping(path = "email/partial/{email:.+}")
 	public ResponseEntity<List<User>> findUserByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		
+
 		List<User> resultBody = null;
 		HttpStatus resultStatus = HttpStatus.OK;
 		try {
 			resultBody = userService.findUserByPartialEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
-			} catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {
 
 			e.printStackTrace();
-		} 
-		
-		if(resultBody == null) {
+		}
+
+		if (resultBody == null) {
 			resultStatus = HttpStatus.NOT_FOUND;
 		}
 		return new ResponseEntity<List<User>>(resultBody, headers, resultStatus);
 	}
-	
+
 	@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping("emails")
 	public List<User> findAllByEmails(@RequestBody EmailList emails) {
 		return userService.findListByEmail(emails.getEmailList());
 	}
-  
+
 	@PostMapping
 	public User save(@RequestBody User user) {
 		return userService.saveUser(user);
 	}
-	
+
 	@PatchMapping
 	public User update(@RequestBody User user) {
 		return userService.updateProfile(user);

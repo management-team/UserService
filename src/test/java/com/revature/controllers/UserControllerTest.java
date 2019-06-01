@@ -10,6 +10,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import com.revature.services.UserService;
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
-	//@InjectMocks
+	@InjectMocks
 	UserController tester = new UserController();
 
 	@Mock
@@ -33,8 +34,27 @@ public class UserControllerTest {
 
 	@Test
 	public void testFindAll() {
-		String result = tester.findAll();
-		Assert.assertEquals("check user Controller find all", "works", result);
+		
+		final int NUM_USERS = 500;
+
+		
+		idUserMap.clear();
+		for (int i = 0; i < NUM_USERS; i++) {
+			idUserMap.add(new User());
+		}
+
+		int i = 0;
+		for (User user : idUserMap) {
+			user.setUserId(i++);
+		}
+		
+		
+
+		when(userService.findAll()).thenReturn(idUserMap);
+		ResponseEntity<List<User>> result = tester.findAll();
+		List<User> resultUser = result.getBody();
+		Assert.assertEquals("check user Controller find all", idUserMap, resultUser);
+		
 	}
 
 	@Test
@@ -153,6 +173,7 @@ public class UserControllerTest {
 		theEmails.setEmailList(emails);
 
 		User test = new User();
+		test.setEmail("blake.kruppa@revature.com");
 		List<User> whenResult = new ArrayList<User>();
 		whenResult.add(test);
 
