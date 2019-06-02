@@ -22,6 +22,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	public Page<User> findUsersByEmailIgnoreCase(String email, Pageable pageable);
   
 	@Query("FROM User user WHERE LOWER(user.email) IN :emailList")
-	public List<User> findAllUserByEmailIgnoreCase(List<String> emailList);
+	public Page<User> findAllUserByEmailIgnoreCase(List<String> emailList, Pageable pageable);
   
 }

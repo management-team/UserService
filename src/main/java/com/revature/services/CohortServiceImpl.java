@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Cohort;
@@ -38,6 +40,11 @@ public class CohortServiceImpl implements CohortService {
 	@Override
 	public List<Cohort> findAll() {
 		return cohortRepo.findAll();
+	}
+
+	@Override
+	public Page<Cohort> findAllByPage(Pageable pageable) {
+		return cohortRepo.findAll(pageable);
 	}
 
   	@Override

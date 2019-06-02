@@ -5,39 +5,37 @@ package com.revature.models.dto;
  public class EmailList {
 
  	private List<String> emailList;
-	public EmailList(List<String> emailList) {
-		super();
-		this.emailList = emailList;
-	}
-
- 	public EmailList() {
+ 	private int page;
+	public EmailList() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
- 	public List<String> getEmailList() {
+	public EmailList(List<String> emailList, int page) {
+		super();
+		this.emailList = emailList;
+		this.page = page;
+	}
+	public List<String> getEmailList() {
 		return emailList;
 	}
-
- 	public void setEmailList(List<String> emailList) {
+	public void setEmailList(List<String> emailList) {
 		this.emailList = emailList;
 	}
-
- 	@Override
-	public String toString() {
-		return "EmailList [emailList=" + emailList + "]";
+	public int getPage() {
+		return page;
 	}
-
-
- 	@Override
+	public void setPage(int page) {
+		this.page = page;
+	}
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((emailList == null) ? 0 : emailList.hashCode());
+		result = prime * result + page;
 		return result;
 	}
-
- 	@Override
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -50,6 +48,8 @@ package com.revature.models.dto;
 			if (other.emailList != null)
 				return false;
 		} else if (!emailList.equals(other.emailList))
+			return false;
+		if (page != other.page)
 			return false;
 		return true;
 	}
