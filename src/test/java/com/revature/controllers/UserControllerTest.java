@@ -55,10 +55,14 @@ public class UserControllerTest {
 		for (User user : idUserMap) {
 			user.setUserId(i++);
 		}
+		Page<User> whenResultPage = Mockito.mock(Page.class);
+		when(whenResultPage.getContent()).thenReturn(idUserMap);
+		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
 		
-		when(userService.findAll()).thenReturn(idUserMap);
-		ResponseEntity<List<User>> result = tester.findAll();
-		List<User> resultUser = result.getBody();
+		when(userService.findAll(pageable)).thenReturn(whenResultPage);
+
+		ResponseEntity<Page<User>> result = tester.findAll(1);
+		List<User> resultUser = result.getBody().getContent();
 		Assert.assertEquals("check user Controller find all", idUserMap, resultUser);
   }
   
