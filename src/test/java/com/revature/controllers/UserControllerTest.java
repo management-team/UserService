@@ -11,6 +11,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -30,7 +31,7 @@ import com.revature.services.UserService;
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
-	// @InjectMocks
+	@InjectMocks
 	UserController tester = new UserController();
 
 	@Mock
@@ -39,6 +40,32 @@ public class UserControllerTest {
 	final List<User> idUserMap = new ArrayList<User>();
 	final Map<String, User> propsUserMap = new HashMap<String, User>();
 
+	@Test
+	public void testFindAll() {
+		
+		final int NUM_USERS = 500;
+
+		
+		idUserMap.clear();
+		for (int i = 0; i < NUM_USERS; i++) {
+			idUserMap.add(new User());
+		}
+
+		int i = 0;
+		for (User user : idUserMap) {
+			user.setUserId(i++);
+		}
+		Page<User> whenResultPage = Mockito.mock(Page.class);
+		when(whenResultPage.getContent()).thenReturn(idUserMap);
+		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
+		
+		when(userService.findAll(pageable)).thenReturn(whenResultPage);
+
+		ResponseEntity<Page<User>> result = tester.findAll(1);
+		List<User> resultUser = result.getBody().getContent();
+		Assert.assertEquals("check user Controller find all", idUserMap, resultUser);
+  }
+  
 	@Test
 	public void testTest() {
 		String result = tester.test();
@@ -166,12 +193,13 @@ public class UserControllerTest {
 		theEmails.setPage(0);
 
 		User test = new User();
+		test.setEmail("blake.kruppa@revature.com");
+    
 		List<User> whenResultList = new ArrayList<User>();
 		whenResultList.add(test);
 		Page<User> whenResultPage = Mockito.mock(Page.class);
 		when(whenResultPage.getContent()).thenReturn(whenResultList);
 		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
-
 		when(userService.findListByEmail(emails, pageable)).thenReturn(whenResultPage);
 
 		List<User> result = tester.findAllByEmails(theEmails).getBody().getContent();
