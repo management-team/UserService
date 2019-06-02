@@ -22,12 +22,10 @@ public interface UserService {
 	 public User updateProfile(User u);
 	//
 	 public User findOneByEmail(String email);
-  
 	//
 	 public Page<User> findUserByPartialEmail(String email, Pageable pageable);
-  
-  //
-	 public List<User> findListByEmail(List<String> emailList);
+	//
+	 public Page<User> findListByEmail(List<String> emailList, Pageable pageable);
   
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)

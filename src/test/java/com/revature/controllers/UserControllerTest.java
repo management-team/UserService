@@ -163,14 +163,18 @@ public class UserControllerTest {
 		EmailList theEmails = new EmailList();
 
 		theEmails.setEmailList(emails);
+		theEmails.setPage(0);
 
 		User test = new User();
-		List<User> whenResult = new ArrayList<User>();
-		whenResult.add(test);
+		List<User> whenResultList = new ArrayList<User>();
+		whenResultList.add(test);
+		Page<User> whenResultPage = Mockito.mock(Page.class);
+		when(whenResultPage.getContent()).thenReturn(whenResultList);
+		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
 
-		when(userService.findListByEmail(emails)).thenReturn(whenResult);
+		when(userService.findListByEmail(emails, pageable)).thenReturn(whenResultPage);
 
-		List<User> result = tester.findAllByEmails(theEmails);
+		List<User> result = tester.findAllByEmails(theEmails).getBody().getContent();
 		User resultUser = result.get(0);
 		Assert.assertEquals("check user Controller find all by emails", test, resultUser);
 	}
