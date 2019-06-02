@@ -4,6 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +23,7 @@ import com.revature.cognito.annotations.CognitoAuth;
 import com.revature.cognito.constants.CognitoRoles;
 import com.revature.models.User;
 import com.revature.models.dto.EmailList;
+import com.revature.models.dto.EmailSearch;
 import com.revature.services.UserService;
 
 @RestController
@@ -36,9 +40,10 @@ public class UserController {
 	}
 
 	@CognitoAuth(roles = { "staging-manager" })
-	@GetMapping("allUsers")
-	public ResponseEntity<List<User>> findAll() {
-		return new ResponseEntity<List<User>>(userService.findAll(), HttpStatus.OK);
+	@GetMapping("allUsers/page/{pageId}")
+	public ResponseEntity<Page<User>> findAll(@PathVariable int pageId) {
+		Pageable pageable = PageRequest.of(pageId, 7, Sort.by("userId"));
+		return new ResponseEntity<>(userService.findAll(pageable), HttpStatus.OK);
 	}
 
 	@GetMapping("{id}")
@@ -74,15 +79,17 @@ public class UserController {
 	}
 
 	@CognitoAuth(roles = { "staging-manager" })
-	@GetMapping(path = "email/partial/{email:.+}")
-	public ResponseEntity<List<User>> findUserByEmail(@PathVariable String email) {
+	@PostMapping(path = "email/partial")
+	public ResponseEntity<Page<User>> findUserByEmail(@RequestBody EmailSearch searchParams) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
+		Pageable pageable = PageRequest.of(searchParams.getPage(), 7, Sort.by("userId"));
 
-		List<User> resultBody = null;
+		Page<User> resultBody = null;
 		HttpStatus resultStatus = HttpStatus.OK;
 		try {
-			resultBody = userService.findUserByPartialEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
+			resultBody = userService.findUserByPartialEmail(
+					java.net.URLDecoder.decode(searchParams.getEmailFragement().toLowerCase(), "utf-8"), pageable);
 		} catch (UnsupportedEncodingException e) {
 
 			e.printStackTrace();
@@ -91,13 +98,15 @@ public class UserController {
 		if (resultBody == null) {
 			resultStatus = HttpStatus.NOT_FOUND;
 		}
-		return new ResponseEntity<List<User>>(resultBody, headers, resultStatus);
+		return new ResponseEntity<>(resultBody, headers, resultStatus);
 	}
 
 	@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping("emails")
-	public List<User> findAllByEmails(@RequestBody EmailList emails) {
-		return userService.findListByEmail(emails.getEmailList());
+	public ResponseEntity<Page<User>> findAllByEmails(@RequestBody EmailList searchParams) {
+		Pageable pageable = PageRequest.of(searchParams.getPage(), 7, Sort.by("userId"));
+		Page<User> returnResult = userService.findListByEmail(searchParams.getEmailList(), pageable);
+		return new ResponseEntity<>(returnResult, HttpStatus.OK);
 	}
 
 	@PostMapping

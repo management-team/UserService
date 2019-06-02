@@ -1,25 +1,24 @@
 package com.revature.models.dto;
 
- import java.util.List;
 
- public class EmailList {
+ public class EmailSearch {
 
- 	private List<String> emailList;
+ 	private String emailFragement;
  	private int page;
-	public EmailList() {
+	public EmailSearch() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public EmailList(List<String> emailList, int page) {
+	public EmailSearch(String emailFragement, int page) {
 		super();
-		this.emailList = emailList;
+		this.emailFragement = emailFragement;
 		this.page = page;
 	}
-	public List<String> getEmailList() {
-		return emailList;
+	public String getEmailFragement() {
+		return emailFragement;
 	}
-	public void setEmailList(List<String> emailList) {
-		this.emailList = emailList;
+	public void setEmailFragement(String emailFragement) {
+		this.emailFragement = emailFragement;
 	}
 	public int getPage() {
 		return page;
@@ -31,7 +30,7 @@ package com.revature.models.dto;
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((emailList == null) ? 0 : emailList.hashCode());
+		result = prime * result + ((emailFragement == null) ? 0 : emailFragement.hashCode());
 		result = prime * result + page;
 		return result;
 	}
@@ -43,14 +42,14 @@ package com.revature.models.dto;
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EmailList other = (EmailList) obj;
-		if (emailList == null) {
-			if (other.emailList != null)
+		EmailSearch other = (EmailSearch) obj;
+		if (emailFragement == null) {
+			if (other.emailFragement != null)
 				return false;
-		} else if (!emailList.equals(other.emailList))
+		} else if (!emailFragement.equals(other.emailFragement))
 			return false;
 		if (page != other.page)
 			return false;
 		return true;
 	}
-}
+ }

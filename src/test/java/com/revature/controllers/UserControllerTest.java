@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -12,12 +13,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.ArgumentMatchers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.revature.models.User;
 import com.revature.models.dto.EmailList;
+import com.revature.models.dto.EmailSearch;
 import com.revature.services.UserService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -48,13 +56,16 @@ public class UserControllerTest {
 			user.setUserId(i++);
 		}
 		
-		
-
 		when(userService.findAll()).thenReturn(idUserMap);
 		ResponseEntity<List<User>> result = tester.findAll();
 		List<User> resultUser = result.getBody();
 		Assert.assertEquals("check user Controller find all", idUserMap, resultUser);
-		
+  }
+  
+	@Test
+	public void testTest() {
+		String result = tester.test();
+		Assert.assertEquals("check user Controller find all", "works", result);
 	}
 
 	@Test
@@ -150,15 +161,19 @@ public class UserControllerTest {
 	@Test
 	public void testFindUsersByEmail() {
 		User test = new User();
-		List<User> whenResult = new ArrayList<User>();
-		whenResult.add(test);
+		List<User> whenResultList = new ArrayList<User>();
+		whenResultList.add(test);
+		Page<User> whenResultPage = Mockito.mock(Page.class);
+		when(whenResultPage.getContent()).thenReturn(whenResultList);
+		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
+		
+		
+		when(userService.findUserByPartialEmail("revature", pageable)).thenReturn(whenResultPage);
 
-		when(userService.findUserByPartialEmail("revature")).thenReturn(whenResult);
+		ResponseEntity<Page<User>> result = tester.findUserByEmail(new EmailSearch("revature", 0));
+		List<User> resultUser = result.getBody().getContent();
 
-		ResponseEntity<List<User>> result = tester.findUserByEmail("revature");
-		List<User> resultUser = result.getBody();
-
-		Assert.assertEquals("check user Controller find users by partial email", whenResult, resultUser);
+		Assert.assertEquals("check user Controller find users by partial email", whenResultList, resultUser);
 
 		System.out.println(tester);
 	}
@@ -171,15 +186,19 @@ public class UserControllerTest {
 		EmailList theEmails = new EmailList();
 
 		theEmails.setEmailList(emails);
+		theEmails.setPage(0);
 
 		User test = new User();
 		test.setEmail("blake.kruppa@revature.com");
-		List<User> whenResult = new ArrayList<User>();
-		whenResult.add(test);
+    
+		List<User> whenResultList = new ArrayList<User>();
+		whenResultList.add(test);
+		Page<User> whenResultPage = Mockito.mock(Page.class);
+		when(whenResultPage.getContent()).thenReturn(whenResultList);
+		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
+		when(userService.findListByEmail(emails, pageable)).thenReturn(whenResultPage);
 
-		when(userService.findListByEmail(emails)).thenReturn(whenResult);
-
-		List<User> result = tester.findAllByEmails(theEmails);
+		List<User> result = tester.findAllByEmails(theEmails).getBody().getContent();
 		User resultUser = result.get(0);
 		Assert.assertEquals("check user Controller find all by emails", test, resultUser);
 	}
@@ -191,20 +210,20 @@ public class UserControllerTest {
 //		// Saving invalid user
 //		// Saving valid user with collision
 //		fail("Not yet implemented");
-	
+
 		User testSave = new User();
 		testSave.setUserId(10000);
 		testSave.setFirstName("first");
 		testSave.setLastName("last");
 		testSave.setEmail("email");
 		testSave.setPhoneNumber("0000000000");
-		
+
 		when(userService.saveUser(testSave)).thenReturn(testSave);
-		
+
 		User testResult = tester.save(testSave);
-		
+
 		Assert.assertEquals("Check user controller save", testSave, testResult);
-		
+
 	}
 
 //	@Test
@@ -214,7 +233,7 @@ public class UserControllerTest {
 //		// Updating where user does not exist
 //		// Updating where user is not valid
 //		fail("Not yet implemented");
-	
+
 //	}
 
 }

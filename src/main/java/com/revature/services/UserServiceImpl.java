@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.revature.cognito.dtos.CognitoRegisterBody;
@@ -45,8 +47,8 @@ public class UserServiceImpl implements UserService {
 	private CognitoUtil cognitoUtil;
 	
 	@Override
-	public List<User> findAll() {
-		return userRepo.findAll();
+	public Page<User> findAll(Pageable pageable) {
+		return userRepo.findAll(pageable);
 	}
 
 	@Override
@@ -118,18 +120,18 @@ public class UserServiceImpl implements UserService {
 	}
   
 	@Override 
-	public List<User> findUserByPartialEmail(String email) {
-		return userRepo.findUsersByEmailIgnoreCase(email);
+	public Page<User> findUserByPartialEmail(String email, Pageable pageable) {
+		return userRepo.findUsersByEmailIgnoreCase(email, pageable);
 	}
   
 	@Override
-	public List<User> findListByEmail(List<String> emailList) {
+	public Page<User> findListByEmail(List<String> emailList, Pageable pageable) {
 		System.out.println(emailList);
 		List<String> lowerCaseEmailList = emailList.stream().map(email -> email.toLowerCase(Locale.ENGLISH))
 				.collect(Collectors.toList());
 		System.out.println(lowerCaseEmailList);
 
-		return userRepo.findAllUserByEmailIgnoreCase(lowerCaseEmailList);
+		return userRepo.findAllUserByEmailIgnoreCase(lowerCaseEmailList, pageable);
 	}
   
 }
